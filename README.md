@@ -86,10 +86,12 @@ Modify the configs from ```Config.py``` if you want.</br>
 You can obtain more details from ```detectron2-windows/detectron2/config/defaults.py```
 
 ### Step4: Training
-run
+For the training part, run
 ```
 python Train.py
 ```
+This procedure will generate a folder named ```output``` and put the model weight ```model_final.pth``` inside it. </br>
+If you want to inference with this model, move ```model_final.pth``` to ```weights``` and follow the steps in Inference section.
 
 ## Inference
 With the same config file ```Config.py``` in this repository and the weight file ```model_final.pth```, we may reproduce the result in codalab by running
