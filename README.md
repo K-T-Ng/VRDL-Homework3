@@ -64,6 +64,33 @@ After we followed the installation above and downloaded the weights, the folder 
     ├──Trainer.py
     ├──README.md
 
+## Train
+There are serveral steps for the training procedure </br>
+### Step1: Prepare dataset
+modify line 89 in ```PrepareDataset``` to True and run
+```
+python PrepareDataset.py
+```
+This step will produce ```train.json``` so that we don't need to read many images during training.</br>
+
+### Step2: Data Augmentation
+If you want to train a model with different data augmentation, modify line 23 ~ 29 in ```DataLoader.py```.
+
+### Step3: Config
+Modify the configs from ```Config.py``` if you want.</br>
+You can obtain more details from ```detectron2-windows/detectron2/config/defaults.py```
+
+### Step4: Training
+run
+```
+python Train.py
+```
+
+## Inference
+With the same config file ```Config.py``` in this repository and the weight file ```model_final.pth```, we may reproduce the result in codalab by running
+```
+python Inference.py
+```
 
 ## Reference
 We follow the installation from: https://dgmaxime.medium.com/how-to-easily-install-detectron2-on-windows-10-39186139101c </br>
