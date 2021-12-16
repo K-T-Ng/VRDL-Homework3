@@ -31,6 +31,11 @@ cd detectron2-windows
 pip install -e .
 cd ..
 ```
+### Step6: Install other requirements
+```
+pip install opencv-python
+
+```
 
 ## Folder structure
 The model weights can be downloaded here: https://drive.google.com/file/d/1ACo7koEgy4CtIBGXbzZryqcbFfgdnKa9/view?usp=sharing </br>
