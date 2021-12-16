@@ -1,15 +1,17 @@
 import os
 import sys
 import json
-sys.path.append(os.path.join('detectron2-windows'))
 
 import cv2
 import numpy as np
 from PIL import Image
 from pycocotools import mask
+
+sys.path.append(os.path.join('detectron2-windows'))
 from detectron2.data import MetadataCatalog, DatasetCatalog
 from detectron2.structures import BoxMode
 from detectron2.utils.visualizer import Visualizer
+
 
 def generate_train_json(dataset_loc=os.path.join('dataset', 'train'),
                         save_loc=os.path.join('dataset', 'train.json')):
@@ -38,7 +40,7 @@ def generate_train_json(dataset_loc=os.path.join('dataset', 'train'),
             # a mask's suffix should be '.png'
             if not msk_name.endswith('.png'):
                 continue
-            
+
             obj = {}
             # read the mask and convert to binary ndarray
             msk = cv2.imread(os.path.join(dataset_loc, img_name, 'masks',
@@ -52,7 +54,8 @@ def generate_train_json(dataset_loc=os.path.join('dataset', 'train'),
 
             # segmentation: rle object from pycocotools.mask.encode()
             obj["segmentation"] = mask.encode(msk)
-            obj["segmentation"]["counts"] = obj["segmentation"]["counts"].decode()
+            decode_count = obj["segmentation"]["counts"].decode()
+            obj["segmentation"]["counts"] = decode_count
 
             # bbox_mode: the format of bbox (xywh here)
             obj["bbox_mode"] = BoxMode.XYWH_ABS
@@ -69,6 +72,7 @@ def generate_train_json(dataset_loc=os.path.join('dataset', 'train'),
     with open(save_loc, 'w') as f:
         f.write(JSON_OBJ)
     return
+
 
 def get_nuclei_dicts(json_loc=os.path.join('data', 'train.json')):
     with open(json_loc, 'r') as f:
@@ -91,22 +95,21 @@ if __name__ == '__main__':
     if GENERATE_JSON:
         generate_train_json(dataset_loc=os.path.join('dataset', 'train'),
                             save_loc=os.path.join('dataset', 'train.json'))
-        
+
         generate_train_json(dataset_loc=os.path.join('dataset', 'valid'),
                             save_loc=os.path.join('dataset', 'valid.json'))
-    
 
     #############################
     # Test for register dataset #
     #############################
-    TsData_fn = lambda : get_nuclei_dicts(json_loc=os.path.join('dataset',
-                                                                'valid.json'))
+    def TsData_fn():
+        return get_nuclei_dicts(json_loc=os.path.join('dataset', 'valid.json'))
 
     DatasetCatalog.register("Nuclei_valid", TsData_fn)
     dataset_dicts = DatasetCatalog.get("Nuclei_valid")
     MetadataCatalog.get("Nuclei_valid").set(thing_classes=["Nuclei"])
     Nuclei_metadata = MetadataCatalog.get("Nuclei_valid")
-    
+
     ##################
     # Visualize data #
     ##################
@@ -119,7 +122,7 @@ if __name__ == '__main__':
                     anno = data_val[0]
                     for anno_key, anno_val in anno.items():
                         print(anno_key, anno_val)
-        
+
         img = cv2.imread(data["file_name"])
         visualizer = Visualizer(img[:, :, ::-1])
         out = visualizer.draw_dataset_dict(data)

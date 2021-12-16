@@ -9,9 +9,8 @@ import numpy as np
 import detectron2.data.transforms as T
 from detectron2.data import detection_utils as utils
 
-#from detectron2.utils.visualizer import Visualizer
-
 from PrepareDataset import get_nuclei_dicts
+
 
 def mapper(dataset_dict):
     # avoid in place modification
@@ -32,7 +31,8 @@ def mapper(dataset_dict):
     # Obtain the aug image
     image = auginput.image
     image_shape = image.shape[:2]
-    dataset_dict["image"] = torch.as_tensor(np.ascontiguousarray(image.transpose(2, 0, 1)))
+    dataset_dict["image"] = torch.as_tensor(
+        np.ascontiguousarray(image.transpose(2, 0, 1)))
 
     # update annotations
     annos = [
@@ -40,7 +40,7 @@ def mapper(dataset_dict):
             annotation, transforms, image_shape)
         for annotation in dataset_dict.pop("annotations")  # dataset_dict["anno
     ]
-    
+
     instances = utils.annotations_to_instances(
         annos, image_shape, mask_format="bitmask"
     )
@@ -52,5 +52,3 @@ def mapper(dataset_dict):
 
 if __name__ == '__main__':
     ValDicts = get_nuclei_dicts(os.path.join('dataset', 'valid.json'))
-    
-    

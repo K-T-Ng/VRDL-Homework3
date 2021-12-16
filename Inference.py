@@ -27,7 +27,7 @@ if __name__ == '__main__':
     for test_img_dict in test_img_ids:
         image_id = test_img_dict["id"]
         img_path = os.path.join('dataset', 'test', test_img_dict["file_name"])
-        
+
         img = utils.read_image(img_path, format="BGR")
         out = predictor(img)
         out = out["instances"].to("cpu").get_fields()
