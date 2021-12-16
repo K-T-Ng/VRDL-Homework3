@@ -96,19 +96,16 @@ if __name__ == '__main__':
         generate_train_json(dataset_loc=os.path.join('dataset', 'train'),
                             save_loc=os.path.join('dataset', 'train.json'))
 
-        generate_train_json(dataset_loc=os.path.join('dataset', 'valid'),
-                            save_loc=os.path.join('dataset', 'valid.json'))
-
     #############################
     # Test for register dataset #
     #############################
-    def TsData_fn():
-        return get_nuclei_dicts(json_loc=os.path.join('dataset', 'valid.json'))
+    def TrData_fn():
+        return get_nuclei_dicts(json_loc=os.path.join('dataset', 'train.json'))
 
-    DatasetCatalog.register("Nuclei_valid", TsData_fn)
-    dataset_dicts = DatasetCatalog.get("Nuclei_valid")
-    MetadataCatalog.get("Nuclei_valid").set(thing_classes=["Nuclei"])
-    Nuclei_metadata = MetadataCatalog.get("Nuclei_valid")
+    DatasetCatalog.register("Nuclei_train", TrData_fn)
+    dataset_dicts = DatasetCatalog.get("Nuclei_train")
+    MetadataCatalog.get("Nuclei_train").set(thing_classes=["Nuclei"])
+    Nuclei_metadata = MetadataCatalog.get("Nuclei_train")
 
     ##################
     # Visualize data #
