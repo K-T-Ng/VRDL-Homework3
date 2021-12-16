@@ -34,7 +34,6 @@ cd ..
 ### Step6: Install other requirements
 ```
 pip install opencv-python
-
 ```
 
 ## Folder structure
