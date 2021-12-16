@@ -7,7 +7,7 @@ We follow the installation from: https://github.com/DGMaxime/detectron2-windows 
 conda create -n HW3 python=3.7
 conda activate HW3
 ```
-### Stpe2: Install torch
+### Step2: Install torch
 ```
 conda install pytorch==1.6.0 torchvision==0.7.0 cudatoolkit=10.1 -c pytorch
 ```
